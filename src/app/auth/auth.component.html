@@ -1,0 +1,70 @@
+<div class="flex min-h-screen font-inter">
+    <!-- Right Section: Logo with Blue Background -->
+    <div class="w-1/2 bg-[#006A71] flex flex-col items-center justify-center text-white p-8 relative">
+        <!-- Background Image -->
+        <img src="img/background.png" alt="Background" class="absolute inset-0 w-full h-full object-cover opacity-20" />
+
+        <!-- Content with z-index to appear above background -->
+        <div class="relative z-10 w-28 h-32 sm:w-40 sm:h-40 bg-white rounded-full flex items-center justify-center mb-6 shadow-lg">
+            <img src="img/logo.png" alt="Complaints System Logo" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full" />
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-bold mb-2 relative z-10">Complaints System</h1>
+        <p class="text-md sm:text-lg font-medium relative z-10">Complaints System</p>
+    </div>
+
+    <!-- Left Section: Login Form -->
+    <div class="w-1/2 flex items-center justify-center bg-gray-100 p-6 sm:p-8 md:p-10">
+        <div class="bg-white p-6 sm:p-8 md:p-10 rounded-xl shadow-lg w-full max-w-md">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
+
+            <form (ngSubmit)="login($event)" class="space-y-4">
+                <div>
+                    <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Email:</label>
+                    <input type="email" id="email" [(ngModel)]="email" name="email" required class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        placeholder="Enter your email" />
+                </div>
+                <div>
+                    <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Password:</label>
+                    <input type="password" id="password" [(ngModel)]="password" name="password" required class="shadow-sm appearance-none border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200 ease-in-out"
+                        placeholder="Enter your password" />
+                </div>
+                <div *ngIf="state===AuthStates.Failure" style="color: crimson;">{{error}}</div>
+                <button type="submit" class="w-full bg-[#006A71] hover:bg-[#2a4371] text-white font-bold py-2.5 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ease-in-out shadow-md" [disabled]="state===AuthStates.Loading"
+                    (click)="login()">
+              <span *ngIf="state !== AuthStates.Loading">Log In</span>
+              <span *ngIf="state===AuthStates.Loading">
+                <svg
+                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Loading...
+              </span>
+            </button>
+            </form>
+
+            <div class="mt-6 text-center ">
+                <p class="text-gray-600 text-sm ">Forgot Password?</p>
+                <button class="mt-2 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2.5 px-4 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition duration-300 ease-in-out shadow-md
+                  " routerLink="/forget-password">
+          Reset Password
+        </button>
+            </div>
+        </div>
+    </div>
+</div>

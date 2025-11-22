@@ -1,0 +1,21 @@
+/* Primary Color: #006A71 */
+:root {
+  --sidebar-width: 250px;
+}
+
+.main-content {
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+.main-content.with-sidebar {
+  margin-left: var(--sidebar-width);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 70px;
+  }
+}
+
