@@ -18,8 +18,10 @@ export class AuthService {
     
     return this.http.post(`${this.apiUrl}/auth/signin`, payload, {
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      withCredentials: false
     });
   }
 
