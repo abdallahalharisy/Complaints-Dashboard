@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Agency } from './models/agency.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgencyService {
-  private apiUrl = '/api'; // Proxy will forward to backend
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

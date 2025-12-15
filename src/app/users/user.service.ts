@@ -3,12 +3,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User, CreateUserDto, CreateStaffDto, UpdateUserDto, QueryUserDto, PaginatedResponse } from './models/user.interface';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = '/api';
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
