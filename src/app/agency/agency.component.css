@@ -255,7 +255,7 @@
 
 .agency-card-header {
     background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-    color: white;
+    color: #005a61;
     padding: 1.25rem;
 }
 

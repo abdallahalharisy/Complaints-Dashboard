@@ -1,20 +1,11 @@
 {
     "/api": {
-        "target": "http://192.168.43.174:3000",
+        "target": "https://complaint-system-1-cm7y.onrender.com",
         "secure": false,
         "changeOrigin": true,
         "logLevel": "debug",
         "pathRewrite": {
             "^/api": ""
-        }
-    },
-    "/complaints": {
-        "target": "http://192.168.43.174:3000",
-        "secure": false,
-        "changeOrigin": true,
-        "logLevel": "debug",
-        "pathRewrite": {
-            "^/complaints": ""
         }
     }
 }

@@ -1,4 +1,6 @@
-<app-sidebar *ngIf="showSidebar"></app-sidebar>
-<div class="main-content" [class.with-sidebar]="showSidebar">
-  <router-outlet />
+<div class="app-container" [class.with-sidebar]="showSidebar">
+  <app-sidebar *ngIf="showSidebar" class="sidebar-container"></app-sidebar>
+  <div class="main-content">
+    <router-outlet />
+  </div>
 </div>

@@ -1,1 +1,603 @@
-/* Additional custom styles if needed */
+:root {
+    --primary-color: #006A71;
+    --primary-dark: #004d52;
+    --primary-light: #008a94;
+    --primary-hover: #005a61;
+    --text-primary: #333;
+    --text-secondary: #666;
+    --bg-light: #f5f5f5;
+    --bg-white: #ffffff;
+    --border-color: #e0e0e0;
+    --error-color: #dc3545;
+    --success-color: #28a745;
+}
+
+.complaints-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 2rem;
+    background: var(--bg-light);
+    min-height: 100vh;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+
+/* Header */
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.header h1 {
+    color: #006A71;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+
+/* Loading State */
+
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    color: var(--text-secondary);
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--bg-light);
+    border-top-color: #006A71;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Error Message */
+
+.error-message {
+    color: var(--error-color);
+    background-color: #fee;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--error-color);
+    font-size: 0.95rem;
+}
+
+
+/* Complaints List */
+
+.complaints-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+
+/* Complaint Card */
+
+.complaint-card {
+    background: var(--bg-white);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    position: relative;
+}
+
+.complaint-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 106, 113, 0.15);
+    border-color: #006A71;
+}
+
+
+/* Lock Indicator */
+
+.lock-indicator {
+    background: linear-gradient(135deg, #ffc107, #ff9800);
+    color: white;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.lock-icon {
+    width: 20px;
+    height: 20px;
+}
+
+
+/* Complaint Card Header */
+
+.complaint-card-header {
+    background: linear-gradient(135deg, #006A71, #008a94);
+    color: white;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.complaint-header-info {
+    flex: 1;
+}
+
+.complaint-header-info h2 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+}
+
+.complaint-badges {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+
+.complaint-meta-info {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.85rem;
+}
+
+.meta-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.badge {
+    padding: 0.375rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.badge-type {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.status-pending {
+    background-color: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid #ffc107;
+}
+
+.status-in-progress {
+    background-color: rgba(0, 123, 255, 0.2);
+    color: #007bff;
+    border: 1px solid #007bff;
+}
+
+.status-awaiting-info {
+    background-color: rgba(255, 152, 0, 0.2);
+    color: #ff9800;
+    border: 1px solid #ff9800;
+}
+
+.status-resolved {
+    background-color: rgba(40, 167, 69, 0.2);
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.status-rejected {
+    background-color: rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
+.status-default {
+    background-color: rgba(108, 117, 125, 0.2);
+    color: #6c757d;
+    border: 1px solid #6c757d;
+}
+
+.complaint-date {
+    text-align: right;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+}
+
+.complaint-date p {
+    margin: 0;
+}
+
+
+/* Complaint Card Body */
+
+.complaint-card-body {
+    padding: 1.5rem;
+}
+
+.complaint-description {
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.complaint-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.location-icon {
+    width: 20px;
+    height: 20px;
+    color: #006A71;
+}
+
+
+/* Files */
+
+.complaint-files {
+    margin-bottom: 1.5rem;
+}
+
+.complaint-files h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.75rem;
+}
+
+.files-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.75rem;
+}
+
+.file-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+    display: block;
+    aspect-ratio: 1;
+}
+
+.file-item:hover {
+    border-color: #006A71;
+    transform: scale(1.05);
+}
+
+.file-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.file-placeholder {
+    width: 100%;
+    height: 100%;
+    background: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+}
+
+.file-placeholder svg {
+    width: 48px;
+    height: 48px;
+}
+
+
+/* Complaint Card Footer */
+
+.complaint-card-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-light);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.btn-edit,
+.btn-note,
+.btn-status {
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+}
+
+.btn-edit {
+    background-color: #006A71;
+    color: white;
+}
+
+.btn-edit:hover:not(:disabled) {
+    background-color: #005a61;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 106, 113, 0.3);
+}
+
+.btn-note {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-note:hover:not(:disabled) {
+    background-color: #138496;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
+}
+
+.btn-status {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-status:hover:not(:disabled) {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.btn-edit:disabled,
+.btn-note:disabled,
+.btn-status:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-edit svg,
+.btn-note svg,
+.btn-status svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+/* Form Section */
+
+.form-section {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background: var(--bg-light);
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-card {
+    background: var(--bg-white);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.form-card h3 {
+    color: #006A71;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.form-textarea:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #006A71;
+    box-shadow: 0 0 0 3px rgba(0, 106, 113, 0.1);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.btn-primary {
+    background-color: #006A71 !important;
+    color: white !important;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 106, 113, 0.2);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #005a61 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 106, 113, 0.3);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #006A71 !important;
+}
+
+.btn-secondary {
+    background-color: white;
+    color: #006A71;
+    border: 2px solid #006A71;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background-color: #006A71;
+    color: white;
+}
+
+.btn-secondary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+/* Empty State */
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--bg-white);
+    border-radius: 12px;
+    border: 2px dashed var(--border-color);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 1rem;
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 1200px) {
+    .complaints-container {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .complaints-container {
+        padding: 1rem;
+    }
+    .header h1 {
+        font-size: 1.5rem;
+    }
+    .complaint-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .complaint-date {
+        text-align: left;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+    .action-buttons {
+        flex-direction: column;
+    }
+    .btn-edit,
+    .btn-note,
+    .btn-status {
+        width: 100%;
+        justify-content: center;
+    }
+    .form-actions {
+        flex-direction: column;
+    }
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+    }
+    .files-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+    .complaint-header-info h2 {
+        font-size: 1.25rem;
+    }
+}

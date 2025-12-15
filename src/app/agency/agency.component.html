@@ -27,10 +27,7 @@
     </div>
 
     <!-- Loading State -->
-    <div class="loading-container" *ngIf="loading">
-        <div class="spinner"></div>
-        <p>Loading agencies...</p>
-    </div>
+    <app-loading *ngIf="loading" message="Loading agencies..." size="medium"></app-loading>
 
     <!-- Error State -->
     <div class="error-container" *ngIf="!loading && error && !showAddForm">

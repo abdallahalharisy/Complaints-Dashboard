@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AgencyService } from './agency.service';
 import { Agency } from './models/agency.interface';
+import { LoadingComponent } from '../shared/loading/loading.component';
 
 @Component({
   selector: 'app-agency',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LoadingComponent],
   templateUrl: './agency.component.html',
   styleUrl: './agency.component.css'
 })

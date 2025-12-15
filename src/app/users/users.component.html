@@ -1,0 +1,220 @@
+<div class="users-container">
+    <div class="header">
+        <h1>Users Management</h1>
+        <div class="header-actions">
+            <button *ngIf="canAddUsers()" class="btn-primary" (click)="toggleAddUserForm()" [disabled]="isSubmitting">
+                {{ showAddUserForm ? 'Cancel' : '+ Add User' }}
+            </button>
+            <button *ngIf="canAddAdmins() || canAddUsers()" class="btn-secondary" (click)="toggleAddAdminForm()" [disabled]="isSubmitting">
+                {{ showAddAdminForm ? 'Cancel' : '+ Add Staff' }}
+            </button>
+        </div>
+    </div>
+
+    <!-- Add User Form -->
+    <div class="add-form" *ngIf="showAddUserForm">
+        <div class="form-card">
+            <h2>Add New User</h2>
+            <form (ngSubmit)="addUser()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="userFirstName">First Name</label>
+                        <input type="text" id="userFirstName" [(ngModel)]="newUser.firstName" name="userFirstName" placeholder="Enter first name" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="userLastName">Last Name</label>
+                        <input type="text" id="userLastName" [(ngModel)]="newUser.lastName" name="userLastName" placeholder="Enter last name" class="form-input" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email *</label>
+                    <input type="email" id="userEmail" [(ngModel)]="newUser.email" name="userEmail" placeholder="Enter email" required class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="userPhone">Phone *</label>
+                    <input type="tel" id="userPhone" [(ngModel)]="newUser.phone" name="userPhone" placeholder="+963943365119" required class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="userPassword">Password</label>
+                    <input type="password" id="userPassword" [(ngModel)]="newUser.password" name="userPassword" placeholder="Leave empty for auto-generated" class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="userProfilePicture">Profile Picture (Optional)</label>
+                    <input type="file" id="userProfilePicture" accept="image/*" (change)="onProfilePictureSelected($event)" class="form-input" />
+                    <div class="image-preview-container" *ngIf="profilePicturePreview">
+                        <div class="image-preview">
+                            <img [src]="profilePicturePreview" alt="Preview" />
+                        </div>
+                        <button type="button" class="btn-remove-image" (click)="removeProfilePicture()" title="Remove Image">
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            Remove Image
+                        </button>
+                    </div>
+                </div>
+                <div class="error-message" *ngIf="error">{{ error }}</div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" [disabled]="isSubmitting || !newUser.email || !newUser.phone">
+                        <span *ngIf="!isSubmitting">Create User</span>
+                        <span *ngIf="isSubmitting">Creating...</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Admin Form -->
+    <div class="add-form" *ngIf="showAddAdminForm">
+        <div class="form-card">
+            <h2>Add New Staff</h2>
+            <form (ngSubmit)="addAdmin()">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="adminFirstName">First Name</label>
+                        <input type="text" id="adminFirstName" [(ngModel)]="newAdmin.firstName" name="adminFirstName" placeholder="Enter first name" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label for="adminLastName">Last Name</label>
+                        <input type="text" id="adminLastName" [(ngModel)]="newAdmin.lastName" name="adminLastName" placeholder="Enter last name" class="form-input" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="adminEmail">Email *</label>
+                    <input type="email" id="adminEmail" [(ngModel)]="newAdmin.email" name="adminEmail" placeholder="Enter email" required class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="adminPhone">Phone *</label>
+                    <input type="tel" id="adminPhone" [(ngModel)]="newAdmin.phone" name="adminPhone" placeholder="+963943365119" required class="form-input" />
+                </div>
+                <div class="form-group">
+                    <label for="adminTargetRole">Target Role *</label>
+                    <select id="adminTargetRole" [(ngModel)]="newAdmin.targetRole" name="adminTargetRole" required class="form-input">
+                        <option *ngFor="let role of getAvailableTargetRoles()" [value]="role.value">
+                            {{ role.label }}
+                        </option>
+                    </select>
+                    <small class="form-hint" *ngIf="currentUserRole === 'staff_admin'">
+                        Staff admins can only create complaint staff
+                    </small>
+                </div>
+                <div class="form-group" *ngIf="shouldShowAgencyId()">
+                    <label for="adminAgencyId">Agency ID *</label>
+                    <input type="text" id="adminAgencyId" [(ngModel)]="newAdmin.agencyId" name="adminAgencyId" placeholder="Enter agency ID" required class="form-input" />
+                    <small class="form-hint">Agency ID is required for complaint staff</small>
+                </div>
+                <div class="error-message" *ngIf="error">{{ error }}</div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" [disabled]="isSubmitting || !newAdmin.email || !newAdmin.phone || !newAdmin.targetRole || (shouldShowAgencyId() && !newAdmin.agencyId)">
+                        <span *ngIf="!isSubmitting">Create Staff</span>
+                        <span *ngIf="isSubmitting">Creating...</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-section" *ngIf="!loading && !error">
+        <div class="filters-card">
+            <h3>Filters</h3>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="searchTerm">Search</label>
+                    <input type="text" id="searchTerm" [(ngModel)]="searchTerm" placeholder="Search by name, email, phone..." class="form-input" />
+                </div>
+                <div class="filter-group">
+                    <label for="roleFilter">Role</label>
+                    <select id="roleFilter" [(ngModel)]="roleFilter" class="form-input">
+                        <option value="">All Roles</option>
+                        <option value="admin">Admin</option>
+                        <option value="staff_admin">Staff Admin</option>
+                        <option value="complaint_staff">Complaint Staff</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="activeFilter">Status</label>
+                    <select id="activeFilter" [(ngModel)]="activeFilter" class="form-input">
+                        <option value="">All</option>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn-primary" (click)="applyFilters()">Apply Filters</button>
+                    <button class="btn-secondary" (click)="clearFilters()">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <app-loading *ngIf="loading" message="Loading users..." size="medium"></app-loading>
+
+    <!-- Error State -->
+    <div class="error-container" *ngIf="!loading && error && !showAddUserForm && !showAddAdminForm">
+        <div class="error-card">
+            <p>{{ error }}</p>
+            <button class="btn-secondary" (click)="loadUsers()">Retry</button>
+        </div>
+    </div>
+
+    <!-- Users List -->
+    <div class="users-list" *ngIf="!loading && !error">
+        <div class="users-grid" *ngIf="users.length > 0">
+            <div class="user-card" *ngFor="let user of users">
+                <div class="user-card-header">
+                    <div class="user-avatar">
+                        <img *ngIf="user.profilePicture" [src]="user.profilePicture" [alt]="user.firstName || user.email" />
+                        <div *ngIf="!user.profilePicture" class="avatar-placeholder">
+                            {{ (user.firstName?.[0] || user.email[0]).toUpperCase() }}
+                        </div>
+                    </div>
+                    <div class="user-header-info">
+                        <h3>{{ user.firstName && user.lastName ? user.firstName + ' ' + user.lastName : user.email }}</h3>
+                        <span [class]="'badge ' + getRoleBadgeClass(user.role)">
+                            {{ getRoleDisplayName(user.role) }}
+                        </span>
+                    </div>
+                </div>
+                <div class="user-card-body">
+                    <div class="user-info">
+                        <span class="label">Email:</span>
+                        <span class="value">{{ user.email }}</span>
+                    </div>
+                    <div class="user-info">
+                        <span class="label">Phone:</span>
+                        <span class="value">{{ user.phone }}</span>
+                    </div>
+                    <div class="user-info">
+                        <span class="label">Status:</span>
+                        <span [class]="'status ' + (user.isActive ? 'status-active' : 'status-inactive')">
+                            {{ user.isActive ? 'Active' : 'Inactive' }}
+                        </span>
+                    </div>
+                    <div class="user-info" *ngIf="user.createdAt">
+                        <span class="label">Created:</span>
+                        <span class="value">{{ formatDate(user.createdAt) }}</span>
+                    </div>
+                </div>
+                <div class="user-card-footer">
+                    <button *ngIf="user.role !== 'admin' && canAddUsers()" class="btn-delete" (click)="deleteUser(user)" title="Delete User">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="empty-state" *ngIf="users.length === 0">
+            <div class="empty-icon">👥</div>
+            <h3>No Users Found</h3>
+            <p>Get started by adding your first user</p>
+            <button *ngIf="canAddUsers()" class="btn-primary" (click)="toggleAddUserForm()">
+                Add User
+            </button>
+        </div>
+    </div>
+</div>

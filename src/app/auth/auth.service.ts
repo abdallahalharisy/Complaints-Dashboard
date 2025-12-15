@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient ,HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  // Use proxy in development, direct URL in production
-  private apiUrl = '/api'; // Proxy will forward to http://192.168.43.174:3000
+  // Base path goes through Angular dev proxy to avoid CORS in local dev
+  private apiUrl = '/api';
 
   constructor(private http: HttpClient) {}
 
@@ -23,27 +23,21 @@ export class AuthService {
     });
   }
 
-  forgetPassword(email: string): Observable<any>
-  {
+  forgetPassword(email: string): Observable<any> {
     let params = new HttpParams()
-    .set('email', email)
-    return this.http.get(`${this.apiUrl}/employee/auth/forget-password`,{
-params
-},
-
-    );
+      .set('email', email);
+    return this.http.get(`${this.apiUrl}/employee/auth/forget-password`, {
+      params
+    });
   }
-  resetPassword(password: string,token:string ): Observable<any>
-  {
+  resetPassword(password: string, token: string): Observable<any> {
     let params = new HttpParams()
-    .set('token', token)
-    return this.http.post(`${this.apiUrl}/employee/auth/confirm-password`,{
-"newPassword":password
-},{
-  params
-}
-
-    );
+      .set('token', token);
+    return this.http.post(`${this.apiUrl}/employee/auth/confirm-password`, {
+      "newPassword": password
+    }, {
+      params
+    });
   }
 
 
