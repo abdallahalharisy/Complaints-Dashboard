@@ -39,6 +39,11 @@ export interface User {
   email: string;
 }
 
+export interface Note {
+  writtenById: string;
+  content: string;
+}
+
 export interface Complaint {
   id: string;
   title: string;
@@ -48,6 +53,7 @@ export interface Complaint {
   type: ComplaintType | ComplaintTypeObject;
   location: string;
   files: ComplaintFile[];
+  notes?: Note[];
   status: ComplaintStatus;
   version: number;
   createdAt: Date;

@@ -323,6 +323,87 @@
     height: 48px;
 }
 
+/* Notes */
+
+.complaint-notes {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.complaint-notes h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.notes-icon {
+    width: 20px;
+    height: 20px;
+    color: #006A71;
+}
+
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.note-item {
+    background: var(--bg-light);
+    border-radius: 8px;
+    padding: 1rem;
+    border-left: 3px solid #006A71;
+    transition: all 0.2s ease;
+}
+
+.note-item:hover {
+    background: rgba(0, 106, 113, 0.05);
+    transform: translateX(2px);
+}
+
+.note-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.note-icon {
+    width: 16px;
+    height: 16px;
+    color: #006A71;
+}
+
+.note-author {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.note-number {
+    margin-left: auto;
+    background: rgba(0, 106, 113, 0.1);
+    color: #006A71;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.note-content {
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
 
 /* Complaint Card Footer */
 

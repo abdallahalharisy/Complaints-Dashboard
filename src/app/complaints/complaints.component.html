@@ -80,6 +80,29 @@
                         </a>
                     </div>
                 </div>
+
+                <!-- Notes -->
+                <div *ngIf="complaint.notes && complaint.notes.length > 0" class="complaint-notes">
+                    <h3>
+                        <svg class="notes-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+                        </svg> Notes ({{ complaint.notes.length }})
+                    </h3>
+                    <div class="notes-list">
+                        <div *ngFor="let note of complaint.notes; let i = index" class="note-item">
+                            <div class="note-header">
+                                <svg class="note-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                                <span class="note-author">{{ getNoteAuthorName(note.writtenById) }}</span>
+                                <span class="note-number">#{{ i + 1 }}</span>
+                            </div>
+                            <div class="note-content">
+                                {{ note.content }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Actions -->

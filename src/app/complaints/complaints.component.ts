@@ -104,10 +104,19 @@ export class ComplaintsComponent implements OnInit {
   }
 
   loadUsersForComplaints(complaints: Complaint[]): void {
-    const userIdsToLoad = complaints
+    // Collect user IDs from complaint owners
+    const complaintUserIds = complaints
       .filter(c => !c.user && c.userId && !this.usersCache.has(c.userId))
-      .map(c => c.userId)
-      .filter((id, index, self) => self.indexOf(id) === index); // Remove duplicates
+      .map(c => c.userId);
+    
+    // Collect user IDs from note authors
+    const noteAuthorIds = complaints
+      .flatMap(c => (c.notes || []).map(note => note.writtenById))
+      .filter(id => id && !this.usersCache.has(id));
+    
+    // Combine and remove duplicates
+    const userIdsToLoad = [...complaintUserIds, ...noteAuthorIds]
+      .filter((id, index, self) => self.indexOf(id) === index);
 
     userIdsToLoad.forEach(userId => {
       this.userService.getOne(userId).subscribe({
@@ -365,6 +374,20 @@ export class ComplaintsComponent implements OnInit {
     return complaint.userId || 'Unknown User';
   }
 
+  getNoteAuthorName(userId: string): string {
+    // Check cache for user info
+    const cachedUser = this.usersCache.get(userId);
+    if (cachedUser) {
+      if (cachedUser.firstName && cachedUser.lastName) {
+        return `${cachedUser.firstName} ${cachedUser.lastName}`;
+      }
+      return cachedUser.email || userId;
+    }
+    
+    // Fallback to userId
+    return userId || 'Unknown User';
+  }
+
   getStatusOptions(): string[] {
     return Object.values(ComplaintStatus);
   }
@@ -380,7 +403,7 @@ export class ComplaintsComponent implements OnInit {
     });
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   onWindowScroll(): void {
     // Check if user scrolled near the bottom (within 200px)
     const scrollPosition = window.innerHeight + window.scrollY;
