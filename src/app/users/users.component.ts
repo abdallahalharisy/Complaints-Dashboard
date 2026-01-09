@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserService } from './user.service';
 import { User, CreateUserDto, CreateStaffDto } from './models/user.interface';
@@ -53,8 +53,15 @@ export class UsersComponent implements OnInit {
   searchTerm: string = '';
   roleFilter: string = '';
   activeFilter: string = '';
+  
+  private isBrowser: boolean;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
     this.loadCurrentUser();
@@ -69,14 +76,16 @@ export class UsersComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error loading current user:', err);
-        // Try to get role from localStorage
-        const userStr = localStorage.getItem('user');
-        if (userStr) {
-          try {
-            const user = JSON.parse(userStr);
-            this.currentUserRole = user.role || '';
-          } catch (e) {
-            console.error('Error parsing user from localStorage:', e);
+        // Try to get role from localStorage (only in browser)
+        if (this.isBrowser) {
+          const userStr = localStorage.getItem('user');
+          if (userStr) {
+            try {
+              const user = JSON.parse(userStr);
+              this.currentUserRole = user.role || '';
+            } catch (e) {
+              console.error('Error parsing user from localStorage:', e);
+            }
           }
         }
       }

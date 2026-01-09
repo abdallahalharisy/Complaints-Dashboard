@@ -1,5 +1,5 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, HostListener, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ComplaintService } from './complaint.service';
 import { Complaint, ComplaintStatus, ComplaintType } from './models/complaint.interface';
@@ -40,11 +40,15 @@ export class ComplaintsComponent implements OnInit {
   isSubmitting: boolean = false;
   currentUserRole: string = '';
   usersCache: Map<string, User> = new Map();
+  private isBrowser: boolean;
 
   constructor(
     private complaintService: ComplaintService,
-    private userService: UserService
-  ) {}
+    private userService: UserService,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   ngOnInit(): void {
     this.loadCurrentUserRole();
@@ -52,6 +56,8 @@ export class ComplaintsComponent implements OnInit {
   }
 
   loadCurrentUserRole(): void {
+    if (!this.isBrowser) return;
+    
     const userStr = localStorage.getItem('user');
     if (userStr) {
       try {
@@ -380,7 +386,7 @@ export class ComplaintsComponent implements OnInit {
     });
   }
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll')
   onWindowScroll(): void {
     // Check if user scrolled near the bottom (within 200px)
     const scrollPosition = window.innerHeight + window.scrollY;

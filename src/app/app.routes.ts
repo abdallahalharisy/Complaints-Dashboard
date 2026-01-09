@@ -4,6 +4,7 @@ import { ComplaintsComponent } from './complaints/complaints.component';
 import { AgencyComponent } from './agency/agency.component';
 import { UsersComponent } from './users/users.component';
 import { GeneralManagementComponent } from './general-management/general-management.component';
+import { authGuard } from './utils/auth.guard';
 
 export const routes: Routes = [
   {
@@ -17,18 +18,22 @@ export const routes: Routes = [
   },
   {
     path: 'analytics',
-    component: GeneralManagementComponent
+    component: GeneralManagementComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'complaints',
-    component: ComplaintsComponent
+    component: ComplaintsComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'agencies',
-    component: AgencyComponent
+    component: AgencyComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'users',
-    component: UsersComponent
+    component: UsersComponent,
+    canActivate: [authGuard]
   }
 ];

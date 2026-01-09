@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { AuthStates } from './auth_states';
 import { Session } from '../utils/session';
 import { SessionService } from '../utils/session.service';
@@ -21,9 +22,15 @@ export class AuthComponent {
   password: string = '';
   state : AuthStates = AuthStates.Success;
   error: string = '';
+  private isBrowser: boolean;
+  
   constructor(
     private session: SessionService, // ✅ Inject the singleton session
-    private router: Router, private authService: AuthService ) {
+    private router: Router, 
+    private authService: AuthService,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
     console.log('AuthComponent constructor called');
     console.log('Initial state:', this.state);
     // Initialize state to Success (not Loading) so form is ready
@@ -75,21 +82,23 @@ export class AuthComponent {
           console.log('Access token found:', accessToken);
           console.log('User role:', response.user?.role);
           
-          // Store access token in localStorage
-          localStorage.setItem('accessToken', accessToken);
-          localStorage.setItem('token', accessToken); // Keep for backward compatibility
-          
-          // Store refresh token if available
-          if (response.refreshToken) {
-            if (typeof response.refreshToken === 'string') {
-              localStorage.setItem('refreshToken', response.refreshToken);
-            } else if (response.refreshToken.token) {
-              localStorage.setItem('refreshToken', response.refreshToken.token);
+          // Store access token in localStorage (only in browser)
+          if (this.isBrowser) {
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('token', accessToken); // Keep for backward compatibility
+            
+            // Store refresh token if available
+            if (response.refreshToken) {
+              if (typeof response.refreshToken === 'string') {
+                localStorage.setItem('refreshToken', response.refreshToken);
+              } else if (response.refreshToken.token) {
+                localStorage.setItem('refreshToken', response.refreshToken.token);
+              }
             }
+            
+            // Store the complete user data
+            localStorage.setItem('user', JSON.stringify(response.user || response));
           }
-          
-          // Store the complete user data
-          localStorage.setItem('user', JSON.stringify(response.user || response));
 
           // Store session data - accessToken is directly in response, role is in user object
           this.session.token = accessToken;

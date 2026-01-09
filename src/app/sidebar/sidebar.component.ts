@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 
 @Component({
@@ -10,17 +10,26 @@ import { RouterModule, Router } from '@angular/router';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-  constructor(private router: Router) {}
+  private isBrowser: boolean;
+
+  constructor(
+    private router: Router,
+    @Inject(PLATFORM_ID) platformId: Object
+  ) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
 
   isActive(route: string): boolean {
     return this.router.url === route || this.router.url.startsWith(route + '/');
   }
 
   logout(): void {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('user');
+    if (this.isBrowser) {
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('user');
+    }
     this.router.navigate(['/login']);
   }
 }
