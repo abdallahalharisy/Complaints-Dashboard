@@ -1,0 +1,217 @@
+<div class="analytics-container">
+    <div class="header">
+        <h1>Analytics Dashboard</h1>
+        <p class="subtitle">Comprehensive complaints management analytics and insights</p>
+    </div>
+
+    <!-- Date Filters -->
+    <div class="filters-section">
+        <div class="filters-card">
+            <h3>
+                <svg class="section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg> Date Range Filter
+            </h3>
+            <div class="date-filters">
+                <div class="filter-group">
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" [(ngModel)]="startDate" class="date-input" />
+                </div>
+                <div class="filter-group">
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate" [(ngModel)]="endDate" class="date-input" />
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-primary" (click)="loadAllAnalytics()">
+            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+            </svg>
+            Apply Filters
+          </button>
+                    <button class="btn btn-secondary" (click)="clearDateFilters()">
+            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            Clear
+          </button>
+                    <button class="btn btn-success" (click)="downloadPdfReport()">
+            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            Download PDF Report
+          </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading">
+        <div class="spinner"></div>
+        <p>Loading analytics data...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error" class="error-message">
+        <svg class="error-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+    </svg>
+        <p>{{ error }}</p>
+    </div>
+
+    <!-- Performance Stats Section -->
+    <div *ngIf="performanceStats" class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon total">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+        </svg>
+            </div>
+            <div class="stat-content">
+                <h3>Total Complaints</h3>
+                <p class="stat-value">{{ performanceStats.totalComplaints }}</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon resolved">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+            </div>
+            <div class="stat-content">
+                <h3>Resolved</h3>
+                <p class="stat-value">{{ performanceStats.resolvedComplaints }}</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon pending">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+            </div>
+            <div class="stat-content">
+                <h3>Pending</h3>
+                <p class="stat-value">{{ performanceStats.pendingComplaints }}</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon rate">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+        </svg>
+            </div>
+            <div class="stat-content">
+                <h3>Resolution Rate</h3>
+                <p class="stat-value">{{ performanceStats.resolutionRate | number:'1.1-1' }}%</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon time">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+            </div>
+            <div class="stat-content">
+                <h3>Avg Resolution Time</h3>
+                <p class="stat-value">{{ performanceStats.averageResolutionTime | number:'1.1-1' }} days</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+        <!-- Complaints by Status -->
+        <div class="chart-card" *ngIf="complaintsByStatus">
+            <h3>
+                <svg class="section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+        </svg> Complaints by Status
+            </h3>
+            <div class="status-chart">
+                <div *ngFor="let item of statusChartData" class="status-item">
+                    <div class="status-header">
+                        <span class="status-label">{{ item.label }}</span>
+                        <span class="status-count">{{ item.value }} ({{ getStatusPercentage(item.value) | number:'1.0-0' }}%)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" [style.width]="getBarWidth(item.value, getMaxValue(statusChartData))" [style.background-color]="item.color">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complaints by Type -->
+        <div class="chart-card" *ngIf="complaintsByType">
+            <h3>
+                <svg class="section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+        </svg> Complaints by Type
+            </h3>
+            <div class="bar-chart">
+                <div *ngFor="let item of typeChartData" class="bar-item">
+                    <span class="bar-label">{{ item.label }}</span>
+                    <div class="bar-container">
+                        <div class="bar-fill" [style.width]="getBarWidth(item.value, getMaxValue(typeChartData))">
+                        </div>
+                        <span class="bar-value">{{ item.value }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Complaints by Agency -->
+    <div class="chart-card full-width" *ngIf="complaintsByAgency">
+        <h3>
+            <svg class="section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+      </svg> Top Agencies by Complaint Count
+        </h3>
+        <div class="agency-chart">
+            <div *ngFor="let item of agencyChartData" class="agency-item">
+                <span class="agency-label">{{ item.label }}</span>
+                <div class="agency-bar-container">
+                    <div class="agency-bar-fill" [style.width]="getBarWidth(item.value, getMaxValue(agencyChartData))">
+                    </div>
+                    <span class="agency-value">{{ item.value }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resolution Time Stats -->
+    <div class="chart-card full-width" *ngIf="resolutionTimeStats">
+        <h3>
+            <svg class="section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg> Resolution Time Statistics
+        </h3>
+        <div class="time-stats-grid">
+            <div class="time-stat">
+                <div class="time-label">Average Time</div>
+                <div class="time-value">{{ resolutionTimeStats.averageTimeInDays | number:'1.1-1' }} days</div>
+            </div>
+            <div class="time-stat">
+                <div class="time-label">Median Time</div>
+                <div class="time-value">{{ resolutionTimeStats.medianTimeInDays | number:'1.1-1' }} days</div>
+            </div>
+            <div class="time-stat">
+                <div class="time-label">Min Time</div>
+                <div class="time-value">{{ resolutionTimeStats.minTimeInDays | number:'1.1-1' }} days</div>
+            </div>
+            <div class="time-stat">
+                <div class="time-label">Max Time</div>
+                <div class="time-value">{{ resolutionTimeStats.maxTimeInDays | number:'1.1-1' }} days</div>
+            </div>
+            <div class="time-stat">
+                <div class="time-label">Total Resolved</div>
+                <div class="time-value">{{ resolutionTimeStats.totalResolved }}</div>
+            </div>
+        </div>
+    </div>
+</div>

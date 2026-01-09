@@ -98,12 +98,12 @@ export class AuthComponent {
           // Update state
           this.state = AuthStates.Success;
           console.log('Login successful! Access token saved to localStorage');
-          console.log('Navigating to complaints...');
+          console.log('Navigating to analytics...');
           
           // Navigate after successful login
           setTimeout(() => {
-            console.log('Attempting navigation to /complaints');
-            this.router.navigate(['/complaints']).then(
+            console.log('Attempting navigation to /analytics');
+            this.router.navigate(['/analytics']).then(
               (success) => console.log('Navigation successful:', success),
               (error) => console.error('Navigation failed:', error)
             );
