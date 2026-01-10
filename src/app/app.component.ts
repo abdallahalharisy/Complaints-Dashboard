@@ -27,8 +27,8 @@ export class AppComponent {
   }
 
   private updateSidebarVisibility(url: string): void {
-    // Show sidebar only on specific routes
-    const routesWithSidebar = ['/analytics', '/complaints', '/agencies', '/users'];
-    this.showSidebar = routesWithSidebar.some(route => url === route || url.startsWith(route + '/'));
+    // Hide sidebar only on login page, show on all other routes
+    const routesWithoutSidebar = ['/login'];
+    this.showSidebar = !routesWithoutSidebar.some(route => url === route || url.startsWith(route + '/'));
   }
 }
