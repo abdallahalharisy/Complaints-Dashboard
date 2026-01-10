@@ -12,6 +12,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
+    console.log('apiUrl', this.apiUrl);
     const payload = { email, password };
     console.log('Sending login request to:', `${this.apiUrl}/auth/signin`);
     console.log('Payload:', payload);

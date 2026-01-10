@@ -7,7 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from './auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-auth',
   standalone: true,
@@ -48,7 +48,6 @@ export class AuthComponent {
     console.log('Email:', this.email);
     console.log('Password:', this.password);
     console.log('State:', this.state);
-    
     // Validate input
     if (this.email.length < 3 || !this.email.includes(".com")) {
       this.state = AuthStates.Failure;
@@ -74,7 +73,6 @@ export class AuthComponent {
       next: (response) => {
         console.log('=== LOGIN RESPONSE RECEIVED ===');
         console.log('Full response:', response);
-        
         // Check if response has accessToken (support both accessToken and accesToken)
         const accessToken = response?.accessToken || response?.accesToken;
         
