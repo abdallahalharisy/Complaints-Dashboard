@@ -60,64 +60,64 @@
     </div>
 
     <!-- Performance Stats Section -->
-    <div *ngIf="performanceStats" class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon total">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-        </svg>
-            </div>
-            <div class="stat-content">
-                <h3>Total Complaints</h3>
-                <p class="stat-value">{{ performanceStats.totalComplaints }}</p>
-            </div>
+    <div *ngIf="performanceStats" class="stats-section">
+        <h2 class="section-title">
+            <svg class="section-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+            System Performance Statistics
+        </h2>
+        <div class="period-info" *ngIf="performanceStats.period">
+            <span class="period-label">Period:</span>
+            <span class="period-date">{{ performanceStats.period.startDate | date:'mediumDate' }} - {{ performanceStats.period.endDate | date:'mediumDate' }}</span>
         </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon requests">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Requests</h3>
+                    <p class="stat-value">{{ performanceStats.totalRequests }}</p>
+                </div>
+            </div>
 
-        <div class="stat-card">
-            <div class="stat-icon resolved">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
+            <div class="stat-card">
+                <div class="stat-icon errors">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Errors</h3>
+                    <p class="stat-value">{{ performanceStats.totalErrors }}</p>
+                </div>
             </div>
-            <div class="stat-content">
-                <h3>Resolved</h3>
-                <p class="stat-value">{{ performanceStats.resolvedComplaints }}</p>
-            </div>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-icon pending">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
+            <div class="stat-card">
+                <div class="stat-icon success">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3>Success Rate</h3>
+                    <p class="stat-value">{{ performanceStats.successRate | number:'1.2-2' }}%</p>
+                </div>
             </div>
-            <div class="stat-content">
-                <h3>Pending</h3>
-                <p class="stat-value">{{ performanceStats.pendingComplaints }}</p>
-            </div>
-        </div>
 
-        <div class="stat-card">
-            <div class="stat-icon rate">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-        </svg>
-            </div>
-            <div class="stat-content">
-                <h3>Resolution Rate</h3>
-                <p class="stat-value">{{ performanceStats.resolutionRate | number:'1.1-1' }}%</p>
-            </div>
-        </div>
-
-        <div class="stat-card">
-            <div class="stat-icon time">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-            </div>
-            <div class="stat-content">
-                <h3>Avg Resolution Time</h3>
-                <p class="stat-value">{{ performanceStats.averageResolutionTime | number:'1.1-1' }} days</p>
+            <div class="stat-card">
+                <div class="stat-icon time">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3>Avg Response Time</h3>
+                    <p class="stat-value">{{ performanceStats.averageResponseTime | number:'1.0-0' }}ms</p>
+                </div>
             </div>
         </div>
     </div>

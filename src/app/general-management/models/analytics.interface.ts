@@ -1,9 +1,12 @@
 export interface PerformanceStats {
-  totalComplaints: number;
-  resolvedComplaints: number;
-  pendingComplaints: number;
-  averageResolutionTime: number;
-  resolutionRate: number;
+  averageResponseTime: number;
+  totalRequests: number;
+  totalErrors: number;
+  successRate: number;
+  period: {
+    startDate: string;
+    endDate: string;
+  };
 }
 
 export interface ComplaintsByStatus {
